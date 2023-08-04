@@ -8,8 +8,9 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "App", targets: ["App"]),
+        .library(name: "WikiKit", targets: ["WikiKit"]),
         .library(name: "FeatureOnboarding", targets: ["FeatureOnboarding"]),
-        .library(name: "FeatureHome", targets: ["FeatureHome"])
+        .library(name: "FeatureHome", targets: ["FeatureHome"]),
     ],
     dependencies: [],
     targets: [
@@ -19,5 +20,7 @@ let package = Package(
         ]),
         .target(name: "FeatureOnboarding"),
         .target(name: "FeatureHome"),
+
+        .target(name: "WikiKit")
     ]
 )

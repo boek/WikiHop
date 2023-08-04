@@ -11,7 +11,20 @@ public struct HomeView: View {
     public init() {}
 
     public var body: some View {
-        Text("Hello, Home!")
+        VStack {
+            Text("WikiHop")
+                .font(.largeTitle)
+
+            Spacer()
+
+            Button(action: {}) {
+                Text("Go")
+            }.buttonStyle(.borderedProminent)
+
+            Button(action: {}) {
+                Text("How to play")
+            }
+        }.padding()
     }
 }
 
