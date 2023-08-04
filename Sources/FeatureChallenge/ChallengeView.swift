@@ -8,7 +8,11 @@
 import SwiftUI
 import WikiKit
 
+import LibEngine
+
 public struct ChallengeView: View {
+    @Environment(\.engine) var engine
+
     var challenge: Challenge
 
     public init(challenge: Challenge) {
@@ -16,7 +20,15 @@ public struct ChallengeView: View {
     }
 
     public var body: some View {
-        Text("Hello, World!")
+        WebView(engineViewFactory: engine.viewFactory)
+            .onAppear {
+                engine.dispatch(.load(URLRequest(url: challenge.start)))
+            }
+            .task {
+                for await event in engine.events {
+                    print(event)
+                }
+            }
     }
 }
 
