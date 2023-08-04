@@ -18,19 +18,20 @@ struct AppView: View {
     @State var currentChallenge: Challenge?
 
     var body: some View {
-        if hasOnboarded {
-            if let currentChallenge {
-                ChallengeView(challenge: currentChallenge)
-            } else {
-                HomeView {
-                    self.currentChallenge = .test
-                }
-            }
-        } else {
-            OnboardingView {
-                self.hasOnboarded.toggle()
-            }
-        }
+        ChallengeView(challenge: .test)
+//        if hasOnboarded {
+//            if let currentChallenge {
+//
+//            } else {
+//                HomeView {
+//                    self.currentChallenge = .test
+//                }
+//            }
+//        } else {
+//            OnboardingView {
+//                self.hasOnboarded.toggle()
+//            }
+//        }
     }
 }
 

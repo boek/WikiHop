@@ -12,7 +12,7 @@ import LibEngine
 
 public struct ChallengeView: View {
     @Environment(\.engine) var engine
-
+    @State var clicks = -1
     var challenge: Challenge
 
     public init(challenge: Challenge) {
@@ -21,12 +21,31 @@ public struct ChallengeView: View {
 
     public var body: some View {
         WebView(engineViewFactory: engine.viewFactory)
+            .overlay(alignment: .topLeading) {
+                if clicks >= 0 {
+                    Text("\(clicks)")
+                        .transition(.push(from: .leading).combined(with: .scale))
+                        .id("click\(clicks)")
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
+                        .padding()
+                } else {
+                    Text("0")
+                        .transition(.push(from: .leading).combined(with: .scale))
+                        .id("click\(clicks)")
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
+                        .padding()
+                }
+            }
             .onAppear {
                 engine.dispatch(.load(URLRequest(url: challenge.start)))
             }
             .task {
                 for await event in engine.events {
-                    print(event)
+                    if event == .didFinishNavigation {
+                        withAnimation { self.clicks += 1 }
+                    }
                 }
             }
     }
