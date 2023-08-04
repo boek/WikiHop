@@ -16,3 +16,12 @@ public struct Challenge {
         self.end = end
     }
 }
+
+public extension Challenge {
+    static var test: Self {
+        .init(
+            start: URL(string: "https://en.wikipedia.org/wiki/Bill_Gates")!,
+            end: URL(string: "https://en.wikipedia.org/wiki/Steve_Jobs")!
+        )
+    }
+}

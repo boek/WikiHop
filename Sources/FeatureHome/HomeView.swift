@@ -8,7 +8,12 @@
 import SwiftUI
 
 public struct HomeView: View {
-    public init() {}
+    @State var showHowToPlay = false
+    var startGame: () -> Void
+
+    public init(startGame: @escaping () -> Void = {}) {
+        self.startGame = startGame
+    }
 
     public var body: some View {
         VStack {
@@ -17,14 +22,18 @@ public struct HomeView: View {
 
             Spacer()
 
-            Button(action: {}) {
+            Button(action: startGame) {
                 Text("Go")
             }.buttonStyle(.borderedProminent)
 
-            Button(action: {}) {
+            Button(action: { self.showHowToPlay.toggle() }) {
                 Text("How to play")
             }
-        }.padding()
+        }
+        .padding()
+        .sheet(isPresented: $showHowToPlay) {
+            HowToPlayView()
+        }
     }
 }
 

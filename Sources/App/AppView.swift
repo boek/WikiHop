@@ -7,14 +7,25 @@
 
 import SwiftUI
 
-import FeatureOnboarding
+import WikiKit
+
+import FeatureChallenge
 import FeatureHome
+import FeatureOnboarding
 
 struct AppView: View {
     @State var hasOnboarded = false
+    @State var currentChallenge: Challenge?
+
     var body: some View {
         if hasOnboarded {
-            HomeView()
+            if let currentChallenge {
+                ChallengeView(challenge: currentChallenge)
+            } else {
+                HomeView {
+                    self.currentChallenge = .test
+                }
+            }
         } else {
             OnboardingView {
                 self.hasOnboarded.toggle()

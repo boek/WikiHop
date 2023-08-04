@@ -9,17 +9,24 @@ let package = Package(
     products: [
         .library(name: "App", targets: ["App"]),
         .library(name: "WikiKit", targets: ["WikiKit"]),
-        .library(name: "FeatureOnboarding", targets: ["FeatureOnboarding"]),
+
+        .library(name: "FeatureChallenge", targets: ["FeatureChallenge"]),
         .library(name: "FeatureHome", targets: ["FeatureHome"]),
+        .library(name: "FeatureOnboarding", targets: ["FeatureOnboarding"]),
     ],
     dependencies: [],
     targets: [
         .target(name: "App", dependencies: [
+            "WikiKit",
+            
             "FeatureOnboarding",
-            "FeatureHome"
+            "FeatureHome",
+            "FeatureChallenge",
         ]),
+
+        .target(name: "FeatureChallenge", dependencies: ["WikiKit"]),
+        .target(name: "FeatureHome", dependencies: ["WikiKit"]),
         .target(name: "FeatureOnboarding"),
-        .target(name: "FeatureHome"),
 
         .target(name: "WikiKit")
     ]
