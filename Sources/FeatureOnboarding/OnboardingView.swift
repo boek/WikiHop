@@ -8,10 +8,19 @@
 import SwiftUI
 
 public struct OnboardingView: View {
-    public init() {}
+    var onTap: () -> Void
+
+    public init(onTap: @escaping () -> Void = {}) {
+        self.onTap = onTap
+    }
 
     public var body: some View {
-        Text("Hello, Onboarding?")
+        VStack {
+            Text("Onboarding")
+            Button(action: onTap) {
+                Text("Onboard")
+            }
+        }
     }
 }
 

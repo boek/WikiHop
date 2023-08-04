@@ -8,11 +8,16 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "App", targets: ["App"]),
-        .library(name: "FeatureOnboarding", targets: ["FeatureOnboarding"])
+        .library(name: "FeatureOnboarding", targets: ["FeatureOnboarding"]),
+        .library(name: "FeatureHome", targets: ["FeatureHome"])
     ],
     dependencies: [],
     targets: [
-        .target(name: "App", dependencies: ["FeatureOnboarding"]),
-        .target(name: "FeatureOnboarding")
+        .target(name: "App", dependencies: [
+            "FeatureOnboarding",
+            "FeatureHome"
+        ]),
+        .target(name: "FeatureOnboarding"),
+        .target(name: "FeatureHome"),
     ]
 )
