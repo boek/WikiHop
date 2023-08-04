@@ -1,7 +1,6 @@
 .DS_Store
 /.build
 /Packages
-/*.xcodeproj
 xcuserdata/
 DerivedData/
 .swiftpm/config/registries.json
@@ -97,7 +96,6 @@ iOSInjectionProject/
 ### SwiftPM ###
 Packages
 xcuserdata
-*.xcodeproj
 
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,swiftpm
