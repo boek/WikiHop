@@ -1,6 +1,12 @@
 import Combine
 import WebKit
 import SwiftUI
+import Foundation
+
+public struct FindInPageResults: Equatable {
+    public var current: Int
+    public var total: Int
+}
 
 public struct EngineViewFactory: Equatable {
     public var id: String
@@ -35,10 +41,17 @@ public struct NavigationState {
     var canGoForward: Bool
 }
 
+public enum FindInPageAction {
+    case updateQuery(String)
+    case findNext(String)
+    case findPrevious(String)
+}
+
 public enum EngineAction {
     case load(URLRequest)
     case goBack
     case goForward
+    case findInPage(FindInPageAction)
 }
 
 public enum EngineEvent: Equatable {
@@ -55,6 +68,7 @@ public enum EngineEvent: Equatable {
     case urlDidChange
     case pullToRefresh
     case themeColorChanged(Color)
+    case updateFindInPageResults(FindInPageResults)
 }
 
 public struct Engine {
@@ -84,6 +98,7 @@ public extension Engine {
                 case .load(let urlRequest): webviewController.load(urlRequest)
                 case .goBack: webviewController.goBack()
                 case .goForward: webviewController.goForward()
+                case .findInPage(let action): webviewController.findInPage(action)
                 }
             },
             events: webviewController.events
@@ -104,6 +119,11 @@ class SystemWebViewController: NSObject {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.websiteDataStore = .nonPersistent()
+
+        configuration.userContentController.add(self, name: "findInPageHandler")
+        let source = try! String(contentsOf: Bundle.module.url(forResource: "findInPage", withExtension: "js")!)
+        let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        configuration.userContentController.addUserScript(script)
 
         let view = WKWebView(frame: .zero, configuration: configuration)
         view.scrollView.delegate = self
@@ -145,6 +165,27 @@ class SystemWebViewController: NSObject {
     func load(_ request: URLRequest) {
         webView.load(request)
     }
+
+    func findInPage(_ action: FindInPageAction) {
+        let function: String
+        let text: String
+
+        switch action {
+        case .updateQuery(let query):
+            text = query
+            function = "find"
+        case .findNext(let query):
+            text = query
+            function = "findNext"
+        case .findPrevious(let query):
+            text = query
+            function = "findPrevious"
+        }
+
+        let escaped = text.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
+        print(escaped)
+        webView.evaluateJavaScript("__firefox__.\(function)(\"\(escaped)\")", completionHandler: nil)
+    }
 }
 
 extension SystemWebViewController: WKNavigationDelegate {
@@ -173,5 +214,15 @@ extension SystemWebViewController: UIScrollViewDelegate {
 
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
         return true
+    }
+}
+
+
+extension SystemWebViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        let data = message.body as! [String : Int]
+        print(data)
+
+//        continuation.yield(.updateFindInPageResults(FindInPageResults(current: current, total: total)))
     }
 }

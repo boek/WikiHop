@@ -28,7 +28,10 @@ let package = Package(
             "FeatureChallenge",
         ]),
 
-        .target(name: "LibEngine"),
+        .target(
+            name: "LibEngine",
+            resources: [.process("Resources/findInPage.js")]
+        ),
 
         .target(name: "FeatureChallenge", dependencies: [
             "LibEngine",

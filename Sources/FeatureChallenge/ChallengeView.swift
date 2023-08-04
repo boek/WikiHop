@@ -13,6 +13,8 @@ import LibEngine
 public struct ChallengeView: View {
     @Environment(\.engine) var engine
     @State var clicks = -1
+    @State var searchQuery = ""
+
     var challenge: Challenge
 
     public init(challenge: Challenge) {
@@ -38,6 +40,22 @@ public struct ChallengeView: View {
                         .padding()
                 }
             }
+            .overlay(alignment: .bottom) {
+                HStack {
+                    TextField("Search term", text: $searchQuery)
+                    Button(action: {
+                        engine.dispatch(.findInPage(.findPrevious(searchQuery)))
+                    }) {
+                        Image(systemName: "chevron.up").padding()
+                    }
+                    Button(action: {
+                        engine.dispatch(.findInPage(.findNext(searchQuery)))
+                    }) {
+                        Image(systemName: "chevron.down").padding()
+                    }
+                }
+                .padding()
+            }
             .onAppear {
                 engine.dispatch(.load(URLRequest(url: challenge.start)))
             }
@@ -47,6 +65,9 @@ public struct ChallengeView: View {
                         withAnimation { self.clicks += 1 }
                     }
                 }
+            }
+            .onChange(of: self.searchQuery) { query in
+                engine.dispatch(.findInPage(.updateQuery(query)))
             }
     }
 }
