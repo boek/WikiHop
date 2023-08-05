@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-import WikiKit
+import HopKit
 
 import FeatureChallenge
 import FeatureHome

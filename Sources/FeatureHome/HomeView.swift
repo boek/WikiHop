@@ -6,49 +6,64 @@
 //
 
 import SwiftUI
-import WikiKit
 
-extension URL {
+import HopKit
+import LibHopClient
+
+extension String {
     var title: String {
-        lastPathComponent.replacingOccurrences(of: "_", with: " ")
+        replacingOccurrences(of: "_", with: " ")
     }
 }
 
 public struct HomeView: View {
     @State var showHowToPlay = false
+    @UseHopClient var hopClient
+    @State var challenge: Challenge?
     var startGame: () -> Void
-    var challenge = Challenge.test
+
 
     public init(startGame: @escaping () -> Void = {}) {
         self.startGame = startGame
     }
 
     public var body: some View {
-        VStack {
-            Text("WikiHop")
-                .font(.largeTitle)
+        if let challenge {
+            VStack {
+                Text("WikiHop")
+                    .font(.largeTitle)
 
-            Spacer()
+                Spacer()
 
-            Text(challenge.start.title)
-                .font(.largeTitle)
-            Text("to")
-            Text(challenge.end.title)
-                .font(.largeTitle)
+                Text(challenge.from.title)
+                    .font(.largeTitle)
+                Text("to")
+                Text(challenge.to.title)
+                    .font(.largeTitle)
 
-            Spacer()
+                Spacer()
 
-            Button(action: startGame) {
-                Text("Go")
-            }.buttonStyle(.borderedProminent)
+                Button(action: startGame) {
+                    Text("Go")
+                }.buttonStyle(.borderedProminent)
 
-            Button(action: { self.showHowToPlay.toggle() }) {
-                Text("How to play")
+                Button(action: { self.showHowToPlay.toggle() }) {
+                    Text("How to play")
+                }
             }
-        }
-        .padding()
-        .sheet(isPresented: $showHowToPlay) {
-            HowToPlayView()
+            .padding()
+            .sheet(isPresented: $showHowToPlay) {
+                HowToPlayView()
+            }
+        } else {
+            Color.clear
+                .task {
+                    do {
+                        self.challenge = try await hopClient.getCurrentChallenge()
+                    } catch {
+                        print(error)
+                    }
+                }
         }
     }
 }

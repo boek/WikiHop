@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WikiKit
+import HopKit
 
 import LibEngine
 
@@ -69,7 +69,8 @@ public struct ChallengeView: View {
                 }
             }
             .onAppear {
-                engine.dispatch(.load(URLRequest(url: challenge.start.appending(queryItems: [.init(name: "withgadget", value: "dark-mode")]))))
+                guard let url = URL(string: "https://en.wikipedia.org/wiki/\(challenge.from)") else { return }
+                engine.dispatch(.load(URLRequest(url: url)))
             }
             .task {
                 for await event in engine.events {
@@ -79,7 +80,7 @@ public struct ChallengeView: View {
 
                     if case EngineEvent.urlDidChange(let url) = event {
                         withAnimation {
-                            hasWon = challenge.end.relativePath == url?.relativePath
+                            hasWon = url?.relativePath.contains(challenge.to) == true
                         }
                     }
                 }

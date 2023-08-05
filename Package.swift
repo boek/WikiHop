@@ -8,22 +8,24 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "App", targets: ["App"]),
-        .library(name: "WikiKit", targets: ["WikiKit"]),
+        .library(name: "HopKit", targets: ["HopKit"]),
 
         .library(name: "LibAuth", targets: ["LibAuth"]),
         .library(name: "LibEngine", targets: ["LibEngine"]),
+        .library(name: "LibHopClient", targets: ["LibHopClient"]),
 
         .library(name: "FeatureChallenge", targets: ["FeatureChallenge"]),
         .library(name: "FeatureHome", targets: ["FeatureHome"]),
         .library(name: "FeatureOnboarding", targets: ["FeatureOnboarding"]),
     ],
-    dependencies: [],
+    dependencies: [.package(url: "https://github.com/supabase/supabase-swift.git", from: "0.3.0")],
     targets: [
         .target(name: "App", dependencies: [
-            "WikiKit",
+            "HopKit",
 
             "LibAuth",
             "LibEngine",
+            "LibHopClient",
 
             "FeatureOnboarding",
             "FeatureHome",
@@ -31,6 +33,10 @@ let package = Package(
         ]),
 
         .target(name: "LibAuth"),
+        .target(name: "LibHopClient", dependencies: [
+            "HopKit",
+            .product(name: "Supabase", package: "supabase-swift")
+        ]),
         .target(
             name: "LibEngine",
             resources: [
@@ -41,11 +47,14 @@ let package = Package(
 
         .target(name: "FeatureChallenge", dependencies: [
             "LibEngine",
-            "WikiKit"
+            "HopKit"
         ]),
-        .target(name: "FeatureHome", dependencies: ["WikiKit"]),
+        .target(name: "FeatureHome", dependencies: [
+            "HopKit",
+            "LibHopClient"
+        ]),
         .target(name: "FeatureOnboarding", dependencies: ["LibAuth"]),
 
-        .target(name: "WikiKit")
+        .target(name: "HopKit")
     ]
 )
