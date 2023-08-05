@@ -25,7 +25,7 @@ if (!window.__firefox__) {
       }
   });
 }
-
+console.log("boek loaded")
 const MAXIMUM_HIGHLIGHT_COUNT = 500;
 const SCROLL_OFFSET_Y = 40;
 const SCROLL_DURATION = 100;

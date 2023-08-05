@@ -65,7 +65,7 @@ public enum EngineEvent: Equatable {
     case didNavigateBack
     case didNavigateForward
     case didReload
-    case urlDidChange
+    case urlDidChange(URL?)
     case pullToRefresh
     case themeColorChanged(Color)
     case updateFindInPageResults(FindInPageResults)
@@ -125,6 +125,11 @@ class SystemWebViewController: NSObject {
         let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         configuration.userContentController.addUserScript(script)
 
+        let source2 = try! String(contentsOf: Bundle.module.url(forResource: "wikipediaUserStyles", withExtension: "js")!)
+        print(source2)
+        let script2 = WKUserScript(source: source2, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        configuration.userContentController.addUserScript(script2)
+
         let view = WKWebView(frame: .zero, configuration: configuration)
         view.scrollView.delegate = self
         view.navigationDelegate = self
@@ -132,6 +137,10 @@ class SystemWebViewController: NSObject {
         view.scrollView.contentInsetAdjustmentBehavior = .automatic
         view.allowsLinkPreview = true
         view.scrollView.clipsToBounds = false
+
+        view.publisher(for: \.url)
+            .sink { [weak self] in self?.continuation.yield(.urlDidChange($0)) }
+            .store(in: &subscriptions)
 
         view.publisher(for: \.estimatedProgress)
             .sink { [weak self] in self?.continuation.yield(.updateEstimatedProgress($0)) }

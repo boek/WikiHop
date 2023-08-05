@@ -14,6 +14,7 @@ public struct ChallengeView: View {
     @Environment(\.engine) var engine
     @State var clicks = -1
     @State var searchQuery = ""
+    @State var hasWon = false
 
     var challenge: Challenge
 
@@ -56,6 +57,16 @@ public struct ChallengeView: View {
                 }
                 .padding()
             }
+            .overlay {
+                if hasWon {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+                        .overlay {
+                            Text("🎉")
+                                .font(.largeTitle)
+                        }
+                }
+            }
             .onAppear {
                 engine.dispatch(.load(URLRequest(url: challenge.start)))
             }
@@ -63,6 +74,12 @@ public struct ChallengeView: View {
                 for await event in engine.events {
                     if event == .didFinishNavigation {
                         withAnimation { self.clicks += 1 }
+                    }
+
+                    if case EngineEvent.urlDidChange(let url) = event {
+                        withAnimation {
+                            hasWon = challenge.end.relativePath == url?.relativePath
+                        }
                     }
                 }
             }
