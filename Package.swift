@@ -8,10 +8,11 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "App", targets: ["App"]),
-        .library(name: "WikiKit", targets: ["WikiKit"]),
+        .library(name: "HopKit", targets: ["HopKit"]),
 
         .library(name: "LibAuth", targets: ["LibAuth"]),
         .library(name: "LibEngine", targets: ["LibEngine"]),
+        .library(name: "LibWikipediaClient", targets: ["LibWikipediaClient"]),
 
         .library(name: "FeatureChallenge", targets: ["FeatureChallenge"]),
         .library(name: "FeatureHome", targets: ["FeatureHome"]),
@@ -20,10 +21,11 @@ let package = Package(
     dependencies: [],
     targets: [
         .target(name: "App", dependencies: [
-            "WikiKit",
+            "HopKit",
 
             "LibAuth",
             "LibEngine",
+            "LibWikipediaClient",
 
             "FeatureOnboarding",
             "FeatureHome",
@@ -38,14 +40,17 @@ let package = Package(
                 .process("Resources/wikipediaUserStyles.js"),
             ]
         ),
+        .target(name: "LibWikipediaClient"),
+        .testTarget(name: "LibWikipediaClientTests", dependencies: ["LibWikipediaClient"]),
 
         .target(name: "FeatureChallenge", dependencies: [
             "LibEngine",
-            "WikiKit"
+            "LibWikipediaClient",
+            "HopKit"
         ]),
-        .target(name: "FeatureHome", dependencies: ["WikiKit"]),
+        .target(name: "FeatureHome", dependencies: ["HopKit"]),
         .target(name: "FeatureOnboarding", dependencies: ["LibAuth"]),
 
-        .target(name: "WikiKit")
+        .target(name: "HopKit")
     ]
 )

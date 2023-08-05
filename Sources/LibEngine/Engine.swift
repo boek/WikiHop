@@ -49,6 +49,7 @@ public enum FindInPageAction {
 
 public enum EngineAction {
     case load(URLRequest)
+    case loadHtml(String)
     case goBack
     case goForward
     case findInPage(FindInPageAction)
@@ -96,6 +97,7 @@ public extension Engine {
             dispatch: { action in
                 switch action {
                 case .load(let urlRequest): webviewController.load(urlRequest)
+                case .loadHtml(let html): webviewController.load(html: html)
                 case .goBack: webviewController.goBack()
                 case .goForward: webviewController.goForward()
                 case .findInPage(let action): webviewController.findInPage(action)
@@ -169,6 +171,10 @@ class SystemWebViewController: NSObject {
 
     func goForward() {
         webView.goForward()
+    }
+
+    func load(html: String) {
+        webView.loadHTMLString(html, baseURL: nil)
     }
 
     func load(_ request: URLRequest) {

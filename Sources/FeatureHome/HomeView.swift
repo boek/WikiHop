@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import WikiKit
+import HopKit
 
 extension URL {
     var title: String {

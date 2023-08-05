@@ -1,7 +1,8 @@
 import SwiftUI
 
-import LibEngine
 import LibAuth
+import LibEngine
+import LibWikipediaClient
 
 public struct WikiHopApp: App {
     public init() {}
@@ -11,6 +12,7 @@ public struct WikiHopApp: App {
             AppView()
                 .with(engine: .system)
                 .with(authClient: .live)
+                .with(wikipediaClient: .live)
         }
     }
 }

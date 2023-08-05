@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
-import WikiKit
+import HopKit
 
 import LibEngine
+import LibWikipediaClient
 
 public struct ChallengeView: View {
     @Environment(\.engine) var engine
+    @Environment(\.wikipediaClient) var wikipediaClient
     @State var clicks = -1
     @State var searchQuery = ""
     @State var hasWon = false
@@ -68,8 +70,17 @@ public struct ChallengeView: View {
                         }
                 }
             }
-            .onAppear {
-                engine.dispatch(.load(URLRequest(url: challenge.start.appending(queryItems: [.init(name: "withgadget", value: "dark-mode")]))))
+//            .onAppear {
+//                engine.dispatch(.load(URLRequest(url: challenge.start.appending(queryItems: [.init(name: "withgadget", value: "dark-mode")]))))
+//            }
+            .task {
+                do {
+                    let html = try await wikipediaClient.htmlForArticle(challenge.start.lastPathComponent).text
+                    print(html)
+                    engine.dispatch(.loadHtml(html))
+                } catch {
+                    print(error)
+                }
             }
             .task {
                 for await event in engine.events {
