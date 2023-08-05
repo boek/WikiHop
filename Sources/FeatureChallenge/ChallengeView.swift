@@ -69,7 +69,7 @@ public struct ChallengeView: View {
                 }
             }
             .onAppear {
-                engine.dispatch(.load(URLRequest(url: challenge.start)))
+                engine.dispatch(.load(URLRequest(url: challenge.start.appending(queryItems: [.init(name: "withgadget", value: "dark-mode")]))))
             }
             .task {
                 for await event in engine.events {

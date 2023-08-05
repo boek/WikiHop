@@ -1,5 +1,8 @@
 import SwiftUI
 
+import LibEngine
+import LibAuth
+
 public struct WikiHopApp: App {
     public init() {}
 
@@ -7,6 +10,7 @@ public struct WikiHopApp: App {
         WindowGroup {
             AppView()
                 .with(engine: .system)
+                .with(authClient: .live)
         }
     }
 }

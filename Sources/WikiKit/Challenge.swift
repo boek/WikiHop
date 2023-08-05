@@ -8,6 +8,7 @@
 import Foundation
 
 public struct Challenge {
+
     public var start: URL
     public var end: URL
 

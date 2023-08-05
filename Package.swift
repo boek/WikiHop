@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "App", targets: ["App"]),
         .library(name: "WikiKit", targets: ["WikiKit"]),
 
+        .library(name: "LibAuth", targets: ["LibAuth"]),
         .library(name: "LibEngine", targets: ["LibEngine"]),
 
         .library(name: "FeatureChallenge", targets: ["FeatureChallenge"]),
@@ -21,6 +22,7 @@ let package = Package(
         .target(name: "App", dependencies: [
             "WikiKit",
 
+            "LibAuth",
             "LibEngine",
 
             "FeatureOnboarding",
@@ -28,6 +30,7 @@ let package = Package(
             "FeatureChallenge",
         ]),
 
+        .target(name: "LibAuth"),
         .target(
             name: "LibEngine",
             resources: [
@@ -41,7 +44,7 @@ let package = Package(
             "WikiKit"
         ]),
         .target(name: "FeatureHome", dependencies: ["WikiKit"]),
-        .target(name: "FeatureOnboarding"),
+        .target(name: "FeatureOnboarding", dependencies: ["LibAuth"]),
 
         .target(name: "WikiKit")
     ]

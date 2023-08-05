@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import LibAuth
 
 public struct OnboardingView: View {
+    @Environment(\.authClient) var authClient
+
     var onTap: () -> Void
 
     public init(onTap: @escaping () -> Void = {}) {
@@ -19,6 +22,13 @@ public struct OnboardingView: View {
             Text("Onboarding")
             Button(action: onTap) {
                 Text("Onboard")
+            }
+            Button(action: {
+                Task {
+                    print(try? await authClient.authorize())
+                }
+            }) {
+                Text("Continue with Apple")
             }
         }
     }

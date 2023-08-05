@@ -14,6 +14,8 @@
 
 /* Begin PBXFileReference section */
 		D5262C0E2A7D8CE6005AADE8 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		D5262C132A7E1717005AADE8 /* WikiHop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WikiHop.entitlements; sourceTree = "<group>"; };
+		D5262C142A7E174F005AADE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D569A2BE2A7D8AD0004638F7 /* WikiHop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WikiHop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D569A2C52A7D8AD0004638F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D569A2EB2A7D8BF1004638F7 /* WikiHop */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WikiHop; path = ..; sourceTree = "<group>"; };
@@ -59,6 +61,8 @@
 		D569A2C02A7D8AD0004638F7 /* WikiHop */ = {
 			isa = PBXGroup;
 			children = (
+				D5262C142A7E174F005AADE8 /* Info.plist */,
+				D5262C132A7E1717005AADE8 /* WikiHop.entitlements */,
 				D569A2C52A7D8AD0004638F7 /* Assets.xcassets */,
 				D5262C0E2A7D8CE6005AADE8 /* Main.swift */,
 			);
@@ -265,13 +269,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = WikiHop/WikiHop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = Z88RVG5KD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = WikiHop/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -296,13 +301,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = WikiHop/WikiHop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = Z88RVG5KD9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = WikiHop/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
