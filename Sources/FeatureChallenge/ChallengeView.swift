@@ -41,7 +41,7 @@ public struct ChallengeView: View {
                         .padding()
                 }
             }
-            .overlay(alignment: .bottom) {
+            .safeAreaInset(edge: .bottom) {
                 HStack {
                     TextField("Search term", text: $searchQuery)
                     Button(action: {
@@ -56,6 +56,7 @@ public struct ChallengeView: View {
                     }
                 }
                 .padding()
+                .background(Color.black.opacity(0.2))
             }
             .overlay {
                 if hasWon {

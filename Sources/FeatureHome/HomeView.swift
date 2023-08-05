@@ -6,10 +6,18 @@
 //
 
 import SwiftUI
+import WikiKit
+
+extension URL {
+    var title: String {
+        lastPathComponent.replacingOccurrences(of: "_", with: " ")
+    }
+}
 
 public struct HomeView: View {
     @State var showHowToPlay = false
     var startGame: () -> Void
+    var challenge = Challenge.test
 
     public init(startGame: @escaping () -> Void = {}) {
         self.startGame = startGame
@@ -18,6 +26,14 @@ public struct HomeView: View {
     public var body: some View {
         VStack {
             Text("WikiHop")
+                .font(.largeTitle)
+
+            Spacer()
+
+            Text(challenge.start.title)
+                .font(.largeTitle)
+            Text("to")
+            Text(challenge.end.title)
                 .font(.largeTitle)
 
             Spacer()
