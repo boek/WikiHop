@@ -13,6 +13,7 @@ import LibHopClient
 public struct HomeView: View {
     @Environment(\.currentChallenge) var challenge
     @Environment(\.startGameAction) var startGame
+    @Environment(\.colorScheme) var colorScheme
     @State var showHowToPlay = false
 
     public init() {}
@@ -49,6 +50,7 @@ public struct HomeView: View {
             }
             .controlSize(.large)
             .buttonStyle(.borderedProminent)
+            .foregroundColor(colorScheme == .dark ? .black : .white)
 
             Button(action: { self.showHowToPlay.toggle() }) {
                 Text("How to play")
