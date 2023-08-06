@@ -13,6 +13,7 @@ import FeatureChallenge
 import FeatureHome
 import FeatureOnboarding
 
+@available(macOS 10.15, *)
 struct AppView: View {
     @State var hasOnboarded = false
     @State var currentChallenge: Challenge?
@@ -33,7 +34,7 @@ struct AppView: View {
         }
     }
 }
-
+@available(macOS 10.15, *)
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         AppView()

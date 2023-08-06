@@ -29,7 +29,7 @@ let package = Package(
 
             "FeatureOnboarding",
             "FeatureHome",
-            "FeatureChallenge",
+            "FeatureChallenge"
         ]),
 
         .target(name: "LibAuth"),

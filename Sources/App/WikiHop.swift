@@ -1,4 +1,5 @@
 import SwiftUI
+import LibHopClient
 
 import LibAuth
 import LibEngine
