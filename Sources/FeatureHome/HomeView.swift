@@ -10,16 +10,9 @@ import SwiftUI
 import HopKit
 import LibHopClient
 
-extension String {
-    var title: String {
-        replacingOccurrences(of: "_", with: " ")
-    }
-}
-
 public struct HomeView: View {
     @State var showHowToPlay = false
-    @UseHopClient var hopClient
-    @State var challenge: Challenge?
+    let challenge: Challenge = .test
     var startGame: () -> Void
 
     public init(startGame: @escaping () -> Void = {}) {
@@ -27,42 +20,46 @@ public struct HomeView: View {
     }
 
     public var body: some View {
-        if let challenge {
-            VStack {
+        VStack {
+            HStack {
+                Spacer()
                 Text("WikiHop")
-                    .font(.largeTitle)
-
+                    .font(.system(.title, design: .serif))
                 Spacer()
-
-                Text(challenge.from.title)
-                    .font(.largeTitle)
-                Text("to")
-                Text(challenge.to.title)
-                    .font(.largeTitle)
-
-                Spacer()
-
-                Button(action: startGame) {
-                    Text("Go")
-                }.buttonStyle(.borderedProminent)
-
-                Button(action: { self.showHowToPlay.toggle() }) {
-                    Text("How to play")
+            }.overlay(alignment: .trailing) {
+                Button(action: {}) {
+                    Image(systemName: "gearshape.fill")
                 }
             }
-            .padding()
-            .sheet(isPresented: $showHowToPlay) {
-                HowToPlayView()
-            }
-        } else {
-            Color.clear
-                .task {
-                    do {
-                        self.challenge = try await hopClient.getCurrentChallenge()
-                    } catch {
-                        print(error)
-                    }
+
+            Spacer()
+
+            Text(challenge.from.title)
+                .font(.largeTitle)
+            Text("to")
+            Text(challenge.to.title)
+                .font(.largeTitle)
+
+            Spacer()
+
+            Button(action: startGame) {
+                HStack {
+                    Spacer()
+                    Text("Hop").bold()
+                    Spacer()
                 }
+            }
+            .controlSize(.large)
+            .buttonStyle(.borderedProminent)
+
+            Button(action: { self.showHowToPlay.toggle() }) {
+                Text("How to play")
+            }
+        }
+        .padding()
+        .tint(.primary)
+        .sheet(isPresented: $showHowToPlay) {
+            HowToPlayView()
         }
     }
 }

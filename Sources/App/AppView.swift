@@ -11,7 +11,6 @@ import HopKit
 
 import FeatureChallenge
 import FeatureHome
-import FeatureOnboarding
 
 @available(macOS 10.15, *)
 struct AppView: View {
@@ -19,17 +18,11 @@ struct AppView: View {
     @State var currentChallenge: Challenge?
 
     var body: some View {
-        if hasOnboarded {
-            if let currentChallenge {
-                ChallengeView(challenge: currentChallenge)
-            } else {
-                HomeView {
-                    self.currentChallenge = .test
-                }
-            }
+        if let currentChallenge {
+            ChallengeView(challenge: currentChallenge)
         } else {
-            OnboardingView {
-                self.hasOnboarded.toggle()
+            HomeView {
+                self.currentChallenge = .test
             }
         }
     }

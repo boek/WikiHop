@@ -18,6 +18,7 @@ public struct ChallengeView: View {
     @State var searchQuery = ""
     @State var hasWon = false
     @UseHopClient var hopClient
+
     
     var challenge: Challenge
     
@@ -83,7 +84,7 @@ public struct ChallengeView: View {
                 }
             }
             .onAppear {
-                guard let url = URL(string: "https://en.wikipedia.org/wiki/\(challenge.from)") else { return }
+                guard let url = URL(string: "https://en.wikipedia.org/wiki/\(challenge.from.id)") else { return }
                 engine.dispatch(.load(URLRequest(url: url)))
             }
             .task {
@@ -94,7 +95,7 @@ public struct ChallengeView: View {
                     
                     if case EngineEvent.urlDidChange(let url) = event {
                         withAnimation {
-                            hasWon = url?.relativePath.contains(challenge.to) == true
+                            hasWon = url?.relativePath.contains(challenge.to.id) == true
                         }
                         if (hasWon) {
                             let userId = UUID(uuidString:"ff24d3a3-7740-4433-8e1f-f9d5d8eef1b5")!
