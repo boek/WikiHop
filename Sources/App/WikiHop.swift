@@ -18,12 +18,3 @@ public struct WikiHopApp: App {
         }
     }
 }
-
-extension SupabaseClient {
-    static var live: Self {
-        SupabaseClient(
-            supabaseURL: URL(string: "https://mvgfizogxujtoxxskaue.supabase.co")!,
-            supabaseKey: ""
-        )
-    }
-}
