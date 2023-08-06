@@ -22,7 +22,6 @@ public struct HomeView: View {
     @State var challenge: Challenge?
     var startGame: () -> Void
 
-
     public init(startGame: @escaping () -> Void = {}) {
         self.startGame = startGame
     }
