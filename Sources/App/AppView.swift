@@ -15,15 +15,15 @@ import FeatureHome
 @available(macOS 10.15, *)
 struct AppView: View {
     @State var hasOnboarded = false
-    @State var playing = false
+    @State var journey: Journey? = nil
     @Environment(\.currentChallenge) var currentChallenge
 
     var body: some View {
-        if playing {
-            ChallengeView(challenge: currentChallenge)
+        if let journey = Binding($journey) {
+            ChallengeView(journey: journey)
         } else {
             HomeView()
-                .with(startGameAction: { self.playing.toggle() })
+                .with(startGameAction: { self.journey = Journey(challengeId: currentChallenge.id) })
         }
     }
 }

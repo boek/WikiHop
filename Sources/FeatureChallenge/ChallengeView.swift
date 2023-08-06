@@ -11,19 +11,21 @@ import HopKit
 import LibHopClient
 import LibEngine
 
+extension Journey {
+    var clicks: Int { steps.count }
+}
+
 public struct ChallengeView: View {
     @Environment(\.engine) var engine
     @Environment(\.colorScheme) var colorScheme
-    @State var clicks = -1
+    @Environment(\.currentChallenge) var challenge
+    @UseHopClient var hopClient
+    @Binding var journey: Journey
     @State var searchQuery = ""
     @State var hasWon = false
-    @UseHopClient var hopClient
-
     
-    var challenge: Challenge
-    
-    public init(challenge: Challenge) {
-        self.challenge = challenge
+    public init(journey: Binding<Journey>) {
+        self._journey = journey
     }
     
     public var body: some View {
@@ -32,10 +34,10 @@ public struct ChallengeView: View {
         
         WebView(engineViewFactory: engine.viewFactory)
             .overlay(alignment: .topTrailing) {
-                if clicks >= 0 {
-                    Text("\(clicks)")
+                if journey.clicks >= 0 {
+                    Text("\(journey.clicks)")
                         .transition(.push(from: .leading).combined(with: .scale))
-                        .id("click\(clicks)")
+                        .id("click\(journey.clicks)")
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.white)
@@ -44,7 +46,7 @@ public struct ChallengeView: View {
                 } else {
                     Text("0")
                         .transition(.push(from: .leading).combined(with: .scale))
-                        .id("click\(clicks)")
+                        .id("click\(journey.clicks)")
                         .font(.largeTitle)
                         .foregroundColor(.white)
                         .padding()
@@ -89,19 +91,16 @@ public struct ChallengeView: View {
             }
             .task {
                 for await event in engine.events {
-                    if event == .didFinishNavigation {
-                        withAnimation { self.clicks += 1 }
-                    }
-                    
-                    if case EngineEvent.urlDidChange(let url) = event {
+                    if case EngineEvent.urlDidChange(let url) = event, let url {
                         withAnimation {
-                            hasWon = url?.relativePath.contains(challenge.to.id) == true
+                            journey.steps.append(Step(date: .now, page: Page(id: url.lastPathComponent)))
+                            hasWon = url.relativePath.contains(challenge.to.id) == true
                         }
                         if (hasWon) {
                             let userId = UUID(uuidString:"ff24d3a3-7740-4433-8e1f-f9d5d8eef1b5")!
                             let challengeId = UUID(uuidString: "319140d6-8fb3-42f9-be79-551ad7554aa0")!
                             do {
-                                try await hopClient.insertJourney(userId, challengeId, clicks, Date.now)
+                                try await hopClient.insertJourney(userId, challengeId, journey.clicks, Date.now)
                             } catch {
                                 print(error)
                             }
@@ -117,6 +116,6 @@ public struct ChallengeView: View {
 
 struct ChallengeView_Previews: PreviewProvider {
     static var previews: some View {
-        ChallengeView(challenge: .test)
+        ChallengeView(journey: .constant(.init(challengeId: UUID())))
     }
 }

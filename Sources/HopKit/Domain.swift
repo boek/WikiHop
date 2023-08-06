@@ -45,6 +45,16 @@ public struct Journey {
     public var challengeId: ChallengeID
     public var startedAt: Date
     public var steps: [Step]
+
+    public init(
+        challengeId: ChallengeID,
+        startedAt: Date = .now,
+        steps: [Step] = []
+    ) {
+        self.challengeId = challengeId
+        self.startedAt = startedAt
+        self.steps = steps
+    }
 }
 
 public typealias JourneyID = UUID
