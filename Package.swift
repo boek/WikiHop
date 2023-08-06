@@ -16,6 +16,7 @@ let package = Package(
 
         .library(name: "FeatureChallenge", targets: ["FeatureChallenge"]),
         .library(name: "FeatureHome", targets: ["FeatureHome"]),
+        .library(name: "FeatureLeaderBoard", targets: ["FeatureLeaderBoard"]),
     ],
     dependencies: [.package(url: "https://github.com/supabase/supabase-swift.git", from: "0.3.0")],
     targets: [
@@ -27,7 +28,8 @@ let package = Package(
             "LibHopClient",
 
             "FeatureHome",
-            "FeatureChallenge"
+            "FeatureChallenge",
+            "FeatureLeaderBoard",
         ]),
 
         .target(name: "LibAuth"),
@@ -52,6 +54,7 @@ let package = Package(
             "HopKit",
             "LibHopClient"
         ]),
+        .target(name: "FeatureLeaderBoard"),
 
         .target(name: "HopKit"),
         .testTarget(name: "HopKitTests", dependencies: ["HopKit"])
