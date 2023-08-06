@@ -11,9 +11,9 @@ import HopKit
 import LibHopClient
 
 public struct HomeView: View {
+    @Environment(\.currentChallenge) var challenge
     @Environment(\.startGameAction) var startGame
     @State var showHowToPlay = false
-    let challenge: Challenge = .test
 
     public init() {}
 

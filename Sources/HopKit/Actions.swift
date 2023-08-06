@@ -8,6 +8,8 @@
 import Foundation
 import SwiftUI
 
+
+// MARK: StartGameAction
 public typealias StartGameAction = () -> Void
 
 struct StartGameEnvironmentKey: EnvironmentKey {
