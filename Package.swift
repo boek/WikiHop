@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "WikiHop",
-    platforms: [.iOS(.v16)],
+    platforms: [.iOS(.v16), .macOS(.v10_15)],
     products: [
         .library(name: "App", targets: ["App"]),
         .library(name: "HopKit", targets: ["HopKit"]),
@@ -18,7 +18,10 @@ let package = Package(
         .library(name: "FeatureHome", targets: ["FeatureHome"]),
         .library(name: "FeatureLeaderBoard", targets: ["FeatureLeaderBoard"]),
     ],
-    dependencies: [.package(url: "https://github.com/supabase/supabase-swift.git", from: "0.3.0")],
+    dependencies: [
+        .package(url: "https://github.com/supabase/supabase-swift.git", from: "0.3.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.2"),
+    ],
     targets: [
         .target(name: "App", dependencies: [
             "HopKit",
@@ -29,8 +32,8 @@ let package = Package(
 
             "FeatureHome",
             "FeatureChallenge",
-            "FeatureLeaderBoard",
-        ]),
+            "FeatureLeaderBoard"
+        ], plugins: ["Environment"]),
 
         .target(name: "LibAuth"),
         .target(name: "LibHopClient", dependencies: [
@@ -57,6 +60,16 @@ let package = Package(
         .target(name: "FeatureLeaderBoard"),
 
         .target(name: "HopKit"),
-        .testTarget(name: "HopKitTests", dependencies: ["HopKit"])
+        .testTarget(name: "HopKitTests", dependencies: ["HopKit"]),
+
+        .executableTarget(
+            name: "PluginEnvironment",
+            dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]
+        ),
+        .plugin(
+            name: "Environment",
+            capability: .buildTool(),
+            dependencies: ["PluginEnvironment"]
+        )
     ]
 )

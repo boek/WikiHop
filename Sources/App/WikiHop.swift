@@ -14,7 +14,7 @@ public struct WikiHopApp: App {
                 .withCurrentChallenge()
                 .with(engine: .system)
                 .with(authClient: .live)
-                .with(hopClient: .live(url: URL(string: "https://mvgfizogxujtoxxskaue.supabase.co")!, key: ""))
+                .with(hopClient: .live(url: URL(string: Config.SUPABASE_URL)!, key: Config.SUPBASE_KEY))
         }
     }
 }
