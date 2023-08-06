@@ -18,14 +18,17 @@ public struct ChallengeView: View {
     @State var searchQuery = ""
     @State var hasWon = false
     @UseHopClient var hopClient
-
+    
     var challenge: Challenge
-
+    
     public init(challenge: Challenge) {
         self.challenge = challenge
     }
-
+    
     public var body: some View {
+        let searchBarBackgroundColor = Color.black.opacity(0.75)
+        let searchContainerBackgroundColor = Color.black.opacity(0.7)
+        
         WebView(engineViewFactory: engine.viewFactory)
             .overlay(alignment: .topTrailing) {
                 if clicks >= 0 {
@@ -60,22 +63,14 @@ public struct ChallengeView: View {
                         }
                         .accentColor(.white)
                         .padding(.all, 20)
-                        .background(Color.black.opacity(0.6))
+                        .background(searchBarBackgroundColor)
                         .cornerRadius(55)
                         .font(.system(size: 20, weight: .heavy, design: .default))
-                    Button(action: {
-                        engine.dispatch(.findInPage(.findPrevious(searchQuery)))
-                    }) {
-                        Image(systemName: "chevron.up").padding().foregroundColor(.white)
-                    }
-                    Button(action: {
-                        engine.dispatch(.findInPage(.findNext(searchQuery)))
-                    }) {
-                        Image(systemName: "chevron.down").padding().foregroundColor(.white)
-                    }
                 }
-                .padding()
-                .background(Color.black.opacity(0.4))
+                .padding(.top, 20)
+                .padding(.horizontal, 20)
+                .padding(.bottom, -10)
+                .background(searchContainerBackgroundColor)
             }
             .overlay {
                 if hasWon {
@@ -96,7 +91,7 @@ public struct ChallengeView: View {
                     if event == .didFinishNavigation {
                         withAnimation { self.clicks += 1 }
                     }
-
+                    
                     if case EngineEvent.urlDidChange(let url) = event {
                         withAnimation {
                             hasWon = url?.relativePath.contains(challenge.to) == true
