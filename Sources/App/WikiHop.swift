@@ -1,13 +1,11 @@
 import SwiftUI
-import Supabase
+import LibHopClient
 
 import LibAuth
 import LibEngine
 import LibHopClient
 
 public struct WikiHopApp: App {
-    let client = SupabaseClient.live
-
     public init() {}
 
     public var body: some Scene {
