@@ -100,7 +100,7 @@ public struct ChallengeView: View {
                             let userId = UUID(uuidString:"ff24d3a3-7740-4433-8e1f-f9d5d8eef1b5")!
                             let challengeId = UUID(uuidString: "319140d6-8fb3-42f9-be79-551ad7554aa0")!
                             do {
-                                try await hopClient.insertJourney(userId, challengeId, journey.clicks, Date.now)
+                                try await hopClient.insertJourney(userId, challengeId, journey.clicks, journey.startedAt, Date.now)
                             } catch {
                                 print(error)
                             }
