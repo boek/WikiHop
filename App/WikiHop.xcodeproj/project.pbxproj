@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B699F4D12A7F3FCC00EE798B /* LeadBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B699F4D02A7F3FCC00EE798B /* LeadBoardView.swift */; };
 		D5262C0F2A7D8CE6005AADE8 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5262C0E2A7D8CE6005AADE8 /* Main.swift */; };
 		D5262C122A7D8D02005AADE8 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = D5262C112A7D8D02005AADE8 /* App */; };
 		D569A2C62A7D8AD0004638F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D569A2C52A7D8AD0004638F7 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B699F4D02A7F3FCC00EE798B /* LeadBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LeadBoardView.swift; path = ../../Sources/LeaderBoard/LeadBoardView.swift; sourceTree = "<group>"; };
 		D5262C0E2A7D8CE6005AADE8 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		D5262C132A7E1717005AADE8 /* WikiHop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WikiHop.entitlements; sourceTree = "<group>"; };
 		D5262C142A7E174F005AADE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		D569A2C02A7D8AD0004638F7 /* WikiHop */ = {
 			isa = PBXGroup;
 			children = (
+				B699F4D02A7F3FCC00EE798B /* LeadBoardView.swift */,
 				D5262C142A7E174F005AADE8 /* Info.plist */,
 				D5262C132A7E1717005AADE8 /* WikiHop.entitlements */,
 				D569A2C52A7D8AD0004638F7 /* Assets.xcassets */,
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5262C0F2A7D8CE6005AADE8 /* Main.swift in Sources */,
+				B699F4D12A7F3FCC00EE798B /* LeadBoardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
