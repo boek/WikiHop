@@ -12,6 +12,7 @@ import LibEngine
 
 public struct ChallengeView: View {
     @Environment(\.engine) var engine
+    @Environment(\.colorScheme) var colorScheme
     @State var clicks = -1
     @State var searchQuery = ""
     @State var hasWon = false
@@ -24,39 +25,55 @@ public struct ChallengeView: View {
 
     public var body: some View {
         WebView(engineViewFactory: engine.viewFactory)
-            .overlay(alignment: .topLeading) {
+            .overlay(alignment: .topTrailing) {
                 if clicks >= 0 {
                     Text("\(clicks)")
                         .transition(.push(from: .leading).combined(with: .scale))
                         .id("click\(clicks)")
                         .font(.largeTitle)
-                        .foregroundColor(.red)
+                        .bold()
+                        .foregroundColor(.white)
                         .padding()
+                        .background(Color.black.opacity(0.5))
                 } else {
                     Text("0")
                         .transition(.push(from: .leading).combined(with: .scale))
                         .id("click\(clicks)")
                         .font(.largeTitle)
-                        .foregroundColor(.red)
+                        .foregroundColor(.white)
                         .padding()
+                        .background(Color.black.opacity(0.5))
                 }
             }
             .safeAreaInset(edge: .bottom) {
                 HStack {
-                    TextField("Search term", text: $searchQuery)
+                    TextField("Search", text: $searchQuery)
+                        .foregroundColor(.white)
+                        .disableAutocorrection(true)
+                        .safeAreaInset(edge: .leading) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.white)
+                                .padding(0.5)
+                                .bold()
+                        }
+                        .accentColor(.white)
+                        .padding(.all, 20)
+                        .background(Color.black.opacity(0.6))
+                        .cornerRadius(55)
+                        .font(.system(size: 20, weight: .heavy, design: .default))
                     Button(action: {
                         engine.dispatch(.findInPage(.findPrevious(searchQuery)))
                     }) {
-                        Image(systemName: "chevron.up").padding()
+                        Image(systemName: "chevron.up").padding().foregroundColor(.white)
                     }
                     Button(action: {
                         engine.dispatch(.findInPage(.findNext(searchQuery)))
                     }) {
-                        Image(systemName: "chevron.down").padding()
+                        Image(systemName: "chevron.down").padding().foregroundColor(.white)
                     }
                 }
                 .padding()
-                .background(Color.black.opacity(0.2))
+                .background(Color.black.opacity(0.4))
             }
             .overlay {
                 if hasWon {
