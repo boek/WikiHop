@@ -11,13 +11,11 @@ import HopKit
 import LibHopClient
 
 public struct HomeView: View {
+    @Environment(\.startGameAction) var startGame
     @State var showHowToPlay = false
     let challenge: Challenge = .test
-    var startGame: () -> Void
 
-    public init(startGame: @escaping () -> Void = {}) {
-        self.startGame = startGame
-    }
+    public init() {}
 
     public var body: some View {
         VStack {

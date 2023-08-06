@@ -21,9 +21,8 @@ struct AppView: View {
         if let currentChallenge {
             ChallengeView(challenge: currentChallenge)
         } else {
-            HomeView {
-                self.currentChallenge = .test
-            }
+            HomeView()
+                .with(startGameAction: { self.currentChallenge = .test })
         }
     }
 }
