@@ -137,6 +137,9 @@ class SystemWebViewController: NSObject {
         view.scrollView.contentInsetAdjustmentBehavior = .automatic
         view.allowsLinkPreview = true
         view.scrollView.clipsToBounds = false
+        if #available(iOS 16.4, *) {
+            view.isInspectable = true
+        }
 
         view.publisher(for: \.url)
             .sink { [weak self] in self?.continuation.yield(.urlDidChange($0)) }
