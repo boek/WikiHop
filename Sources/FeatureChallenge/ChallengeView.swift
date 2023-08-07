@@ -123,7 +123,7 @@ struct HasWonModal: View {
     let to: String
     
     var body: some View {
-        // Barbe -> Oppenheimer
+        // Barbie -> Oppenheimer
         let shareText = "\(from) -> \(to) took me \(clicks) clicks, https://wikihop.app"
         
         VStack {
