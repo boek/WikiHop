@@ -11,6 +11,15 @@ import HopKit
 import LibHopClient
 import LibEngine
 
+extension TimeInterval {
+    var humanizedString: String {
+        let time = Int(self)
+        let seconds = time % 60
+        let minutes = (time / 60) % 60
+        return String(format: "%0.2d:%0.2d",minutes,seconds)
+    }
+}
+
 extension Journey {
     var clicks: Int { steps.count }
 }
@@ -30,30 +39,66 @@ public struct ChallengeView: View {
         self._journey = journey
     }
     
+    @State var currentDate = Date.now
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    @State var timeSinceStarted = 0.0
+    var data: some View {
+        Text(timeSinceStarted.humanizedString)
+            .onReceive(timer) { input in
+                timeSinceStarted = input.timeIntervalSince(journey.startedAt)
+            }
+            .bold()
+            .foregroundColor(.white)
+            .padding()
+            .background {
+                Color.black.opacity(0.5)
+            }
+    }
+    
     public var body: some View {
         let searchBarBackgroundColor = Color.black.opacity(0.75)
         let searchContainerBackgroundColor = Color.black.opacity(0.7)
+        
+        
+        
         VStack {
             WebView(engineViewFactory: engine.viewFactory)
                 .overlay(alignment: .topTrailing) {
+                    Text(challenge.to.title)
+                        .bold()
+                        .padding()
+                        .foregroundColor(.white)
+                        .background{
+                            Color.black.opacity(0.5)
+                        }
+                }
+                .overlay(alignment: .bottomTrailing) {
+                    VStack {
+                        data
+                    }
+                }
+                .overlay(alignment: .bottomLeading) {
                     if journey.clicks >= 0 {
                         Text("\(journey.clicks)")
                             .transition(.push(from: .leading).combined(with: .scale))
                             .id("click\(journey.clicks)")
-                            .font(.largeTitle)
                             .bold()
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.black.opacity(0.5))
+                            .background {
+                                Color.black.opacity(0.5)
+                            }
                     } else {
                         Text("0")
                             .transition(.push(from: .leading).combined(with: .scale))
                             .id("click\(journey.clicks)")
-                            .font(.largeTitle)
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.black.opacity(0.5))
+                            .background {
+                                Color.black.opacity(0.5)
+                            }
                     }
+                    
                 }
                 .safeAreaInset(edge: .bottom) {
                     HStack {
@@ -65,6 +110,28 @@ public struct ChallengeView: View {
                                     .foregroundColor(.white)
                                     .padding(0.5)
                                     .bold()
+                            }
+                            .safeAreaInset(edge: .trailing) {
+                                HStack(spacing: 16) {
+                                    Button (
+                                        action: {
+                                            engine.dispatch(.findInPage(.findNext(searchQuery)))
+                                        },
+                                        label: {
+                                            Image(systemName: "chevron.down")
+                                                .foregroundColor(Color(UIColor.white))
+                                        }
+                                    )
+                                    Button (
+                                        action: {
+                                            engine.dispatch(.findInPage(.findPrevious(searchQuery)))
+                                        },
+                                        label: {
+                                            Image(systemName: "chevron.up")
+                                                .foregroundColor(Color(UIColor.white))
+                                        }
+                                    )
+                                }
                             }
                             .accentColor(.white)
                             .padding(.all, 20)
@@ -155,7 +222,7 @@ struct ToastModifier: ViewModifier {
     func body(content: Content) -> some View {
         ZStack(alignment: .top) {
             content
-
+            
             if isPresented {
                 ToastView().transition(.move(edge: .top))
             }
