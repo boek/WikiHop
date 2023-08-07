@@ -14,3 +14,5 @@ document.head.appendChild(style)
 var searchIcon = document.getElementById("searchIcon");
 searchIcon.style.display = "none";
 
+var hamburgerMenu = document.getElementById("mw-mf-main-menu-button");
+hamburgerMenu.style.display = "none";
