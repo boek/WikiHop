@@ -110,7 +110,7 @@ public struct ChallengeView: View {
         .sheet(isPresented: $showModal, onDismiss: {
             showModal = false
         }) {
-            HasWonModal(showToast: $showToast)
+            HasWonModal(showToast: $showToast, clicks: journey.clicks, from: challenge.from.title, to: challenge.to.title)
         }
     }
     
@@ -118,9 +118,13 @@ public struct ChallengeView: View {
 
 struct HasWonModal: View {
     @Binding var showToast: Bool
+    let clicks: Int
+    let from: String
+    let to: String
+    
     var body: some View {
-        let clicks = 5
-        let shareText = "Barbie -> Oppenheimer took me \(clicks) clicks, https://wikihop.app"
+        // Barbie -> Oppenheimer
+        let shareText = "\(from) -> \(to) took me \(clicks) clicks, https://wikihop.app"
         
         VStack {
             Text("You did it")
