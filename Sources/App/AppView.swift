@@ -12,7 +12,6 @@ import HopKit
 import FeatureChallenge
 import FeatureHome
 
-@available(macOS 10.15, *)
 struct AppView: View {
     @State var hasOnboarded = false
     @State var journey: Journey? = nil
@@ -27,7 +26,7 @@ struct AppView: View {
         }
     }
 }
-@available(macOS 10.15, *)
+
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         AppView()
